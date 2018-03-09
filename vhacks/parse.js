@@ -82,6 +82,7 @@ function getAllFriendScores2(done, progress) {
 	var maxNewsFeedDepth = 20;
 
 	var pageIds = getAllPageIds();
+	console.log("[wlong] pageIds: ", pageIds);
 	var profileToPages = {};
 	var profileToName = {};
 	var profileToFrequency;
@@ -151,6 +152,17 @@ function getAllPageIds() {
 		.concat(Object.keys(pol_dict));
 }
 
+function getAllFriendIds() {
+	FB.api(
+		'/me/friends',
+		'GET',
+		{},
+		function(response) {
+			console.log("[wlong] getAllFriendsIds: ", response);
+		}
+	);
+}
+
 function getLoggedInAs(done) {
 	get('https://mbasic.facebook.com', function(text) {
 		var $t = $(text);
@@ -184,6 +196,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 					login == userData["login"] &&
 					(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
 				// cached data is valid
+
+				console.log("[wlong] userData: ", userData);
+				getAllFriendIds();
+
 				chrome.runtime.sendMessage({
 					action: "parseResponse",
 					data: userData["data"],

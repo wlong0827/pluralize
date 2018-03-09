@@ -1,6 +1,7 @@
 chrome.tabs.getCurrent(function (tab) {
   chrome.runtime.onMessage.addListener(function (request, sender) {
     if (request.action == "parseResponse" && request.tab == tab.id) {
+      console.log(request.data);
       storeResponse(request.data, request.login);
       loadChart(request.data, request.login);
     } else if (request.action == "parseProgress") {
