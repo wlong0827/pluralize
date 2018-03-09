@@ -168,9 +168,6 @@ pol_dict["54172246106"] = ucp; //Rand Paul
 pol_dict["6934857868"] = ucp; //Mike Huckabee 
 pol_dict["134193140910"] = ucp; //Being Conservative 
 
-var religion_dict = {"292351509697": "Christianity","70630972354":0.5,"369904272838":0.5,"136875049761549":0.5,"101306095226":0.5,"100285034878":0.5,"339188887615":0.5,"110329429014529":0.5,"25254987383":0.5,"32799979557":0.5,"1488446504757384":0.5,"38122663867":0.5,"40569674495":0.5,"176027309086298":0.5,"114150946225":0.5,"69158688121":0.5,"40705356712":0.5,"150082021706729":0.5,"362362770865":0.5,"296680801734":0.5,"167928726698362":0.5,"167782866638638":0.5,"103871055685":0.5,"56922759738":0.5,"140364529390811":0.5,"145138128859694":0.5,"355665001198720":0.5,"200895559940234":0.5,"147615988064":0.5,"133924409987123":0.5,"892769544147871":0.5,"32981324086":0.5,"125850704092379":0.5,"140462333321":0.5,"127156197334950":0.5,"751124264910866":0.5,"690870940928612":0.5,"412218815636715":0.5,"131210896985770":0.5,"140737019293770":0.5,"293331317374778":0.5,"277280502321495":0.5,"381371491933711":0.5,"102771646440276":0.5,"99941002159":0.5,"205015432883299":0.5,"384092021645659":0.5,"92047888071":0.5,"393866970668863":0.5,"383306620200":0.5}
-var pageToReligion = {"292351509697":"Jerusalem Prayer Team","70630972354":"Jesus Daily","369904272838":"الصفحة الرسمية للشيخ د. محمد العريفي .","136875049761549":"المصحف الجامع","101306095226":"Joel Osteen Ministries","100285034878":"Hadith of the Day","339188887615":"Dalai Lama","110329429014529":"Dios Es Bueno","25254987383":"Joyce Meyer Ministries","32799979557":"Digital Bible","1488446504757384":"ARabi","38122663867":"Our Mother of Perpetual Help","40569674495":"ILoveAllaah.com","176027309086298":"Khatu Shyam ji ( Shyam Baba )","114150946225":"من كان آخر كلامه لا إله إلا الله دخل الجنة","69158688121":"Im a Muslim & Im Proud","40705356712":"Renuevo de Plenitud","150082021706729":"Islam Question and Answer","362362770865":"هل تحب الرسول..هيا تفضل يا ترى كم من محب للحبيب محمدﷺ معنا","296680801734":"Dr. James Dobson's Family Talk","167928726698362":"Dearly","167782866638638":"Yusuf Mansur (Official)","103871055685":"♥ I Need Allah In My Life ♥","56922759738":"K. H. Muhammad Arifin Ilham","140364529390811":"Jesus Loves You","145138128859694":"GodVine","355665001198720":"I Love the Bible","200895559940234":"دار الإفتاء المصرية","147615988064":"DawateIslami","133924409987123":"I am a Woman of God","892769544147871":"ALLAH Aik Hai","32981324086":"الشيخ متولى الشعراوى","125850704092379":"اناشيد اسلامية","140462333321":"T.D. Jakes Ministries","127156197334950":"أمة محمد - صلى الله عليه وسلم","751124264910866":"Pyaare Nabi  Ki Baatain ﷺ","690870940928612":"Waseelah","412218815636715":"DIOS","131210896985770":"كلام فى الرومانسية","140737019293770":"God","293331317374778":"Walk with Jesus","277280502321495":"Ahmed Deedat In Arabic","381371491933711":"DiniRaah free islamic sms service on mobile","102771646440276":"Jesus Christ Savior by Beliefnet","99941002159":"Belajar Islam","205015432883299":"The Lord is my Shepherd; I shall not Want.  - Psalm23:1","384092021645659":"Explore God","92047888071":"I Love Jesus, by iLoveJesusonline.com","393866970668863":"Tarde com Maria","383306620200":"I Love Jesus Christ"}
-
 var pageToName = {
 	// news dict
 	"9258148868": "The New Yorker",
@@ -308,6 +305,9 @@ var pageToName = {
 	"134193140910": "Being Conservative"
 }
 
+var religion_dict = {"292351509697": "Christianity","70630972354":0.5,"369904272838":0.5,"136875049761549":0.5,"101306095226":0.5,"100285034878":0.5,"339188887615":0.5,"110329429014529":0.5,"25254987383":0.5,"32799979557":0.5,"1488446504757384":0.5,"38122663867":0.5,"40569674495":0.5,"176027309086298":0.5,"114150946225":0.5,"69158688121":0.5,"40705356712":0.5,"150082021706729":0.5,"362362770865":0.5,"296680801734":0.5,"167928726698362":0.5,"167782866638638":0.5,"103871055685":0.5,"56922759738":0.5,"140364529390811":0.5,"145138128859694":0.5,"355665001198720":0.5,"200895559940234":0.5,"147615988064":0.5,"133924409987123":0.5,"892769544147871":0.5,"32981324086":0.5,"125850704092379":0.5,"140462333321":0.5,"127156197334950":0.5,"751124264910866":0.5,"690870940928612":0.5,"412218815636715":0.5,"131210896985770":0.5,"140737019293770":0.5,"293331317374778":0.5,"277280502321495":0.5,"381371491933711":0.5,"102771646440276":0.5,"99941002159":0.5,"205015432883299":0.5,"384092021645659":0.5,"92047888071":0.5,"393866970668863":0.5,"383306620200":0.5}
+var pageToReligion = {"292351509697":"Jerusalem Prayer Team","70630972354":"Jesus Daily","369904272838":"الصفحة الرسمية للشيخ د. محمد العريفي .","136875049761549":"المصحف الجامع","101306095226":"Joel Osteen Ministries","100285034878":"Hadith of the Day","339188887615":"Dalai Lama","110329429014529":"Dios Es Bueno","25254987383":"Joyce Meyer Ministries","32799979557":"Digital Bible","1488446504757384":"ARabi","38122663867":"Our Mother of Perpetual Help","40569674495":"ILoveAllaah.com","176027309086298":"Khatu Shyam ji ( Shyam Baba )","114150946225":"من كان آخر كلامه لا إله إلا الله دخل الجنة","69158688121":"Im a Muslim & Im Proud","40705356712":"Renuevo de Plenitud","150082021706729":"Islam Question and Answer","362362770865":"هل تحب الرسول..هيا تفضل يا ترى كم من محب للحبيب محمدﷺ معنا","296680801734":"Dr. James Dobson's Family Talk","167928726698362":"Dearly","167782866638638":"Yusuf Mansur (Official)","103871055685":"♥ I Need Allah In My Life ♥","56922759738":"K. H. Muhammad Arifin Ilham","140364529390811":"Jesus Loves You","145138128859694":"GodVine","355665001198720":"I Love the Bible","200895559940234":"دار الإفتاء المصرية","147615988064":"DawateIslami","133924409987123":"I am a Woman of God","892769544147871":"ALLAH Aik Hai","32981324086":"الشيخ متولى الشعراوى","125850704092379":"اناشيد اسلامية","140462333321":"T.D. Jakes Ministries","127156197334950":"أمة محمد - صلى الله عليه وسلم","751124264910866":"Pyaare Nabi  Ki Baatain ﷺ","690870940928612":"Waseelah","412218815636715":"DIOS","131210896985770":"كلام فى الرومانسية","140737019293770":"God","293331317374778":"Walk with Jesus","277280502321495":"Ahmed Deedat In Arabic","381371491933711":"DiniRaah free islamic sms service on mobile","102771646440276":"Jesus Christ Savior by Beliefnet","99941002159":"Belajar Islam","205015432883299":"The Lord is my Shepherd; I shall not Want.  - Psalm23:1","384092021645659":"Explore God","92047888071":"I Love Jesus, by iLoveJesusonline.com","393866970668863":"Tarde com Maria","383306620200":"I Love Jesus Christ"}
+
 function score(post_ids) {
 	var score = 0;
 	var found = 0;
@@ -351,35 +351,35 @@ function score(post_ids) {
 	};
 }
 
-// function score(post_ids) {
-// 	var score = 0;
-// 	var found = 0;
-// 	var fake = 0;
-// 	var num_posts = post_ids.length;
-// 	var pages = [];
-// 	//deduplicate post_ids
-// 	post_ids = post_ids.filter(function(elem, index, self) {
-//     return index == self.indexOf(elem);
-// 	})
-// 	for (i = 0; i < num_posts; i++) {
-// 		post_id = post_ids[i];
-// 		var page_data = {
-// 			name: pageToReligion[post_id]
-// 		};
-// 		var oldFound = found;
-// 		if (religion_dict[post_id]) {
-// 			found++;
-// 			score += religion_dict[post_id];
-// 			page_data["score"] = religion_dict[post_id];
-// 		}
-// 		if (found > oldFound) {
-// 			pages.push(page_data);
-// 		}
-// 	}
-// 	return {
-// 		politicalScore: score / found,
-// 		confidence: Math.min(found / 10, 1.0),
-// 		authenticity: 1 - fake / found,
-// 		pages: pages
-// 	};
-// }
+function religionScore(post_ids) {
+	var score = 0;
+	var found = 0;
+	var fake = 0;
+	var num_posts = post_ids.length;
+	var pages = [];
+	//deduplicate post_ids
+	post_ids = post_ids.filter(function(elem, index, self) {
+    return index == self.indexOf(elem);
+	})
+	for (i = 0; i < num_posts; i++) {
+		post_id = post_ids[i];
+		var page_data = {
+			name: pageToReligion[post_id]
+		};
+		var oldFound = found;
+		if (religion_dict[post_id]) {
+			found++;
+			score += religion_dict[post_id];
+			page_data["score"] = religion_dict[post_id];
+		}
+		if (found > oldFound) {
+			pages.push(page_data);
+		}
+	}
+	return {
+		politicalScore: score / found,
+		confidence: Math.min(found / 10, 1.0),
+		authenticity: 1 - fake / found,
+		pages: pages
+	};
+}

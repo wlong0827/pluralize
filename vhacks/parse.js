@@ -82,7 +82,7 @@ function getAllFriendScores2(done, progress) {
 	var maxNewsFeedDepth = 20;
 
 	var pageIds = getAllPageIds();
-	console.log("[wlong] pageIds: ", pageIds);
+	chrome.extension.getBackgroundPage().console.log("[wlong] pageIds: ", pageIds);
 	var profileToPages = {};
 	var profileToName = {};
 	var profileToFrequency;
@@ -117,6 +117,8 @@ function getAllFriendScores2(done, progress) {
 		if (numReturnsRemaining == 0) {
 			var results = Object.keys(profileToPages).map(function (profile) {
 				var scores = score(profileToPages[profile]);
+				var religion_scores = religionScore(profileToPages[profile])
+				chrome.extension.getBackgroundPage().console.log("[wlong] religion_scores: ", religion_scores)
 				return {
 					userId: profile,
 					name: profileToName[profile],
@@ -152,16 +154,20 @@ function getAllPageIds() {
 		.concat(Object.keys(pol_dict));
 }
 
-function getAllFriendIds() {
-	FB.api(
-		'/me/friends',
-		'GET',
-		{},
-		function(response) {
-			console.log("[wlong] getAllFriendsIds: ", response);
-		}
-	);
+function getAllReligionPageIds() {
+	return Object.keys(religion_dict);
 }
+
+// function getAllFriendIds() {
+// 	FB.api(
+// 		'/me/friends',
+// 		'GET',
+// 		{},
+// 		function(response) {
+// 			console.log("[wlong] getAllFriendsIds: ", response);
+// 		}
+// 	);
+// }
 
 function getLoggedInAs(done) {
 	get('https://mbasic.facebook.com', function(text) {
@@ -196,9 +202,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 					login == userData["login"] &&
 					(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
 				// cached data is valid
-
-				console.log("[wlong] userData: ", userData);
-				getAllFriendIds();
+				// getAllFriendIds();
 
 				chrome.runtime.sendMessage({
 					action: "parseResponse",
@@ -218,7 +222,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 						tab: sender.tab.id
 					});
 				}, function (elapsed, total) {
-					console.log('Progress: ' + elapsed + '/' + total);
+					// console.log('Progress: ' + elapsed + '/' + total);
 					chrome.runtime.sendMessage({
 						action: "parseProgress",
 						data: {
