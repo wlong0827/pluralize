@@ -78,33 +78,76 @@ function getPageLikes(pageId, done, onFetch) {
 	});
 }
 
-function getFriendIds(done) {
-	get('https://mbasic.facebook.com/me/friends', function (text) {
-		var $t = $(text);
-		// MARK
-		// var url2 = 'https://mbasic.facebook.com' + $t.find('a[href$="about?refid=17"]').attr('href');
-		// url2 = url2.replace(/about\?refid=17/, 'socialcontext');
-		// onFetch();
+// function getFriendIds(maxDepth, done) {
+// 	var friends = [];
 
-		// get(url2, function (text2) {
-		// 	var $t = $(text2);
-		// 	// MARK
-		// 	var profileUrls = $t.find('h4:contains("Friends who like this ")').siblings().find('a').map(function () {
-		// 		return {
-		// 			href: $(this).attr('href'),
-		// 			name: $(this).text(),
-		// 		};
-		// 	}).get();
-		// 	onFetch();
-		// 	done(profileUrls);
-		// });
+// 	function fetch(url, depth, fetchDone) {
+// 		console.log('getFriendIds.fetch', depth);
+// 		get(url, function (text) {
+// 			var $t = $(text);
+
+// 			var profileUrls = $t.find('a').map(function() {
+// 				const link = $(this).attr('href');
+// 				if (link.indexOf("fr_tab") > -1) {
+// 					return {
+// 						href: link,
+// 						name: $(this).text(),
+// 					}
+// 				}
+// 			}).get();
+
+// 			friends += profileUrls;
+
+// 			var next = $t.find('a[href^="/friends?unit_cursor"]').last().attr('href');
+// 			if (next && depth) {
+// 				fetch('https://mbasic.facebook.com' + next, depth - 1, fetchDone);
+// 			} else {
+// 				fetchDone();
+// 			}
+// 		});
+// 	}
+function getFriendIdsPage(url) {
+	get(url, function (text) {
+		var $t = $(text);
+		// Need to add: section=contact-info
 		var profileUrls = $t.find('a').map(function() {
-			return {
-				href: $(this).attr('href'),
-				name: $(this).text(),
+			const link = $(this).attr('href');
+			if (link.indexOf("fr_tab") > -1) {
+				return {
+					href: link,
+					name: $(this).text(),
+				}
 			}
 		}).get();
-		done(profileUrls);
+		return profileUrls;
+	});
+}
+
+function getFriendIds(done) {
+	var friends = [];
+	get('https://mbasic.facebook.com/me/friends', function (text) {
+		var $t = $(text);
+		// Need to add: section=contact-info
+		var profileUrls = $t.find('a').map(function() {
+			const link = $(this).attr('href');
+			if (link.indexOf("fr_tab") > -1) {
+				return {
+					href: link,
+					name: $(this).text(),
+				}
+			}
+		}).get();
+		friends = friends.concat(profileUrls);
+
+		var depth = 5;
+		var next = $t.find('a[href*="/friends?unit_cursor"]').last().attr('href');
+		console.log('https://mbasic.facebook.com' + next);
+		if (next && depth) {
+			nextFriends = getFriendIdsPage(next);
+			friends = friends.concat(nextFriends);
+		}
+
+		done(friends);
 	});
 }
 // https://mbasic.facebook.com/me/friends
