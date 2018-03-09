@@ -78,79 +78,64 @@ function getPageLikes(pageId, done, onFetch) {
 	});
 }
 
-// function getFriendIds(maxDepth, done) {
-// 	var friends = [];
-
-// 	function fetch(url, depth, fetchDone) {
-// 		console.log('getFriendIds.fetch', depth);
-// 		get(url, function (text) {
-// 			var $t = $(text);
-
-// 			var profileUrls = $t.find('a').map(function() {
-// 				const link = $(this).attr('href');
-// 				if (link.indexOf("fr_tab") > -1) {
-// 					return {
-// 						href: link,
-// 						name: $(this).text(),
-// 					}
-// 				}
-// 			}).get();
-
-// 			friends += profileUrls;
-
-// 			var next = $t.find('a[href^="/friends?unit_cursor"]').last().attr('href');
-// 			if (next && depth) {
-// 				fetch('https://mbasic.facebook.com' + next, depth - 1, fetchDone);
-// 			} else {
-// 				fetchDone();
-// 			}
-// 		});
-// 	}
-function getFriendIdsPage(url) {
-	get(url, function (text) {
-		var $t = $(text);
-		// Need to add: section=contact-info
-		var profileUrls = $t.find('a').map(function() {
-			const link = $(this).attr('href');
-			if (link.indexOf("fr_tab") > -1) {
-				return {
-					href: link,
-					name: $(this).text(),
-				}
-			}
-		}).get();
-		return profileUrls;
-	});
-}
-
-function getFriendIds(done) {
+function getFriendIds(maxDepth, done) {
 	var friends = [];
-	get('https://mbasic.facebook.com/me/friends', function (text) {
-		var $t = $(text);
-		// Need to add: section=contact-info
-		var profileUrls = $t.find('a').map(function() {
-			const link = $(this).attr('href');
-			if (link.indexOf("fr_tab") > -1) {
-				return {
-					href: link,
-					name: $(this).text(),
+
+	function fetch(url, depth, fetchDone) {
+		console.log('getFriendIds.fetch', depth);
+
+		get(url, function (text) {
+			var $t = $(text);
+
+			var profileUrls = $t.find('a').map(function() {
+				const link = $(this).attr('href');
+				if (link !== undefined && link.indexOf("fr_tab") > -1) {
+					return {
+						href: link,
+						name: $(this).text(),
+					}
 				}
+			}).get();
+
+			friends = friends.concat(profileUrls);
+
+			var next = $t.find('a[href*="/friends?unit_cursor"]').last().attr('href');
+			if (next && depth) {
+				fetch('https://mbasic.facebook.com' + next, depth - 1, fetchDone);
+			} else {
+				fetchDone();
 			}
-		}).get();
-		friends = friends.concat(profileUrls);
+		});
+	}
 
-		var depth = 5;
-		var next = $t.find('a[href*="/friends?unit_cursor"]').last().attr('href');
-		console.log('https://mbasic.facebook.com' + next);
-		if (next && depth) {
-			nextFriends = getFriendIdsPage(next);
-			friends = friends.concat(nextFriends);
-		}
-
+	fetch('https://mbasic.facebook.com/me/friends', maxDepth, function () {
 		done(friends);
 	});
 }
-// https://mbasic.facebook.com/me/friends
+
+function getReligions(friendData, done) {
+	var religionData = [];
+
+	for(var i = 0; i < friendData.length; i++) {
+		friend = friendData[i];
+		var url = 'https://mbasic.facebook.com' + friend.href.replace("?", "/about?");
+		get(url, function (text) {
+			var $t = $(text);
+
+			var religion = $t.find("div[title=\"Religious Views\"]");
+			if(religion) {
+				console.log(religion);
+				opt1 = religion.find('a');
+				console.log("opt1", opt1);
+				opt2 = religion.first()
+				console.log("opt2", opt2);
+				religionData[friend.name] = religion;
+			}
+		});
+	}
+	console.log(religionData);
+	done(religionData);
+}
 
 function getAllFriendScores2(done, progress) {
 	var maxNewsFeedDepth = 20;
@@ -251,8 +236,11 @@ function getLoggedInAs(done) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "parse") {
 		var userData = request.cached;
-		getFriendIds(function(profileUrls) {
+		getFriendIds(5, function(profileUrls) {
 			console.log("[wlong] profileUrls: ", profileUrls);
+			getReligions(profileUrls, function(religionData) {
+				console.log("[wlong] religionData: ", religionData);
+			})
 		})
 		// getLoggedInAs(function(login) {
 		// 	if (!login) {
