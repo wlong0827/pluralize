@@ -78,6 +78,37 @@ function getPageLikes(pageId, done, onFetch) {
 	});
 }
 
+function getFriendIds(done) {
+	get('https://mbasic.facebook.com/me/friends', function (text) {
+		var $t = $(text);
+		// MARK
+		// var url2 = 'https://mbasic.facebook.com' + $t.find('a[href$="about?refid=17"]').attr('href');
+		// url2 = url2.replace(/about\?refid=17/, 'socialcontext');
+		// onFetch();
+
+		// get(url2, function (text2) {
+		// 	var $t = $(text2);
+		// 	// MARK
+		// 	var profileUrls = $t.find('h4:contains("Friends who like this ")').siblings().find('a').map(function () {
+		// 		return {
+		// 			href: $(this).attr('href'),
+		// 			name: $(this).text(),
+		// 		};
+		// 	}).get();
+		// 	onFetch();
+		// 	done(profileUrls);
+		// });
+		var profileUrls = $t.find('a').map(function() {
+			return {
+				href: $(this).attr('href'),
+				name: $(this).text(),
+			}
+		}).get();
+		done(profileUrls);
+	});
+}
+// https://mbasic.facebook.com/me/friends
+
 function getAllFriendScores2(done, progress) {
 	var maxNewsFeedDepth = 20;
 
@@ -118,7 +149,7 @@ function getAllFriendScores2(done, progress) {
 			var results = Object.keys(profileToPages).map(function (profile) {
 				var scores = score(profileToPages[profile]);
 				var religion_scores = religionScore(profileToPages[profile])
-				chrome.extension.getBackgroundPage().console.log("[wlong] religion_scores: ", religion_scores)
+				console.log("[wlong] religion_scores: ", religion_scores)
 				return {
 					userId: profile,
 					name: profileToName[profile],
@@ -158,17 +189,6 @@ function getAllReligionPageIds() {
 	return Object.keys(religion_dict);
 }
 
-// function getAllFriendIds() {
-// 	FB.api(
-// 		'/me/friends',
-// 		'GET',
-// 		{},
-// 		function(response) {
-// 			console.log("[wlong] getAllFriendsIds: ", response);
-// 		}
-// 	);
-// }
-
 function getLoggedInAs(done) {
 	get('https://mbasic.facebook.com', function(text) {
 		var $t = $(text);
@@ -188,51 +208,53 @@ function getLoggedInAs(done) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "parse") {
 		var userData = request.cached;
-		getLoggedInAs(function(login) {
-			if (!login) {
-				// not logged in
-				chrome.runtime.sendMessage({
-					action: "parseResponse",
-					data: [],
-					login: null,
-					tab: sender.tab.id
-				});
-			}
-			else if (userData && userData["login"] && userData["time"] &&
-					login == userData["login"] &&
-					(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
-				// cached data is valid
-				// getAllFriendIds();
-
-				chrome.runtime.sendMessage({
-					action: "parseResponse",
-					data: userData["data"],
-					login: userData["login"],
-					tab: sender.tab.id
-				});
-			}
-			else {
-				// cached data is invalid
-				getAllFriendScores2(function (data) {
-					console.log(data);
-					chrome.runtime.sendMessage({
-						action: "parseResponse",
-						data: data,
-						login: login,
-						tab: sender.tab.id
-					});
-				}, function (elapsed, total) {
-					// console.log('Progress: ' + elapsed + '/' + total);
-					chrome.runtime.sendMessage({
-						action: "parseProgress",
-						data: {
-							elapsed: elapsed,
-							total: total,
-						},
-					});
-				});
-			}
-		});
+		getFriendIds(function(profileUrls) {
+			console.log("[wlong] profileUrls: ", profileUrls);
+		})
+		// getLoggedInAs(function(login) {
+		// 	if (!login) {
+		// 		// not logged in
+		// 		chrome.runtime.sendMessage({
+		// 			action: "parseResponse",
+		// 			data: [],
+		// 			login: null,
+		// 			tab: sender.tab.id
+		// 		});
+		// 	}
+		// 	else if (userData && userData["login"] && userData["time"] &&
+		// 			login == userData["login"] &&
+		// 			(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
+		// 		// cached data is valid
+		// 		// getAllFriendIds();
+		// 		chrome.runtime.sendMessage({
+		// 			action: "parseResponse",
+		// 			data: userData["data"],
+		// 			login: userData["login"],
+		// 			tab: sender.tab.id
+		// 		});
+		// 	}
+		// 	else {
+		// 		// cached data is invalid
+		// 		getAllFriendScores2(function (data) {
+		// 			console.log(data);
+		// 			chrome.runtime.sendMessage({
+		// 				action: "parseResponse",
+		// 				data: data,
+		// 				login: login,
+		// 				tab: sender.tab.id
+		// 			});
+		// 		}, function (elapsed, total) {
+		// 			// console.log('Progress: ' + elapsed + '/' + total);
+		// 			chrome.runtime.sendMessage({
+		// 				action: "parseProgress",
+		// 				data: {
+		// 					elapsed: elapsed,
+		// 					total: total,
+		// 				},
+		// 			});
+		// 		});
+		// 	}
+		// });
 	} else if (request.action == 'reset') {
 		timeoutHistory.forEach(function (timeout) {
 			clearTimeout(timeout)
