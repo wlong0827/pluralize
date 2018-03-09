@@ -2,12 +2,12 @@
   "name": "Vhacks",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "Visualize the religious exposure on your Facebook wall",
+  "description": "Visualize the religious exposure in your social network",
   "browser_action": {
     "default_popup": "popup.html"
   },
   "icons":{
-  	  "128":"icon128t.png"
+  	  "128":"pluralize.png"
   },
   "background": {
     "scripts": [

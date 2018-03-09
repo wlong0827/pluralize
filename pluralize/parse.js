@@ -78,6 +78,65 @@ function getPageLikes(pageId, done, onFetch) {
 	});
 }
 
+function getFriendIds(maxDepth, done) {
+	var friends = [];
+
+	function fetch(url, depth, fetchDone) {
+		console.log('getFriendIds.fetch', depth);
+
+		get(url, function (text) {
+			var $t = $(text);
+
+			var profileUrls = $t.find('a').map(function() {
+				const link = $(this).attr('href');
+				if (link !== undefined && link.indexOf("fr_tab") > -1) {
+					return {
+						href: link,
+						name: $(this).text(),
+					}
+				}
+			}).get();
+
+			friends = friends.concat(profileUrls);
+
+			var next = $t.find('a[href*="/friends?unit_cursor"]').last().attr('href');
+			if (next && depth) {
+				fetch('https://mbasic.facebook.com' + next, depth - 1, fetchDone);
+			} else {
+				fetchDone();
+			}
+		});
+	}
+
+	fetch('https://mbasic.facebook.com/me/friends', maxDepth, function () {
+		done(friends);
+	});
+}
+
+function getReligions(friendData, done) {
+	var religionData = [];
+
+	for(var i = 0; i < friendData.length; i++) {
+		friend = friendData[i];
+		var url = 'https://mbasic.facebook.com' + friend.href.replace("?", "/about?");
+		get(url, function (text) {
+			var $t = $(text);
+
+			var religion = $t.find("div[title=\"Religious Views\"]");
+			if(religion) {
+				console.log(religion);
+				opt1 = religion.find('a');
+				console.log("opt1", opt1);
+				opt2 = religion.first()
+				console.log("opt2", opt2);
+				religionData[friend.name] = religion;
+			}
+		});
+	}
+	console.log(religionData);
+	done(religionData);
+}
+
 function getAllFriendScores2(done, progress) {
 	var maxNewsFeedDepth = 20;
 
@@ -118,7 +177,7 @@ function getAllFriendScores2(done, progress) {
 			var results = Object.keys(profileToPages).map(function (profile) {
 				var scores = score(profileToPages[profile]);
 				var religion_scores = religionScore(profileToPages[profile])
-				chrome.extension.getBackgroundPage().console.log("[wlong] religion_scores: ", religion_scores)
+				console.log("[wlong] religion_scores: ", religion_scores)
 				return {
 					userId: profile,
 					name: profileToName[profile],
@@ -158,17 +217,6 @@ function getAllReligionPageIds() {
 	return Object.keys(religion_dict);
 }
 
-// function getAllFriendIds() {
-// 	FB.api(
-// 		'/me/friends',
-// 		'GET',
-// 		{},
-// 		function(response) {
-// 			console.log("[wlong] getAllFriendsIds: ", response);
-// 		}
-// 	);
-// }
-
 function getLoggedInAs(done) {
 	get('https://mbasic.facebook.com', function(text) {
 		var $t = $(text);
@@ -188,51 +236,56 @@ function getLoggedInAs(done) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "parse") {
 		var userData = request.cached;
-		getLoggedInAs(function(login) {
-			if (!login) {
-				// not logged in
-				chrome.runtime.sendMessage({
-					action: "parseResponse",
-					data: [],
-					login: null,
-					tab: sender.tab.id
-				});
-			}
-			else if (userData && userData["login"] && userData["time"] &&
-					login == userData["login"] &&
-					(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
-				// cached data is valid
-				// getAllFriendIds();
-
-				chrome.runtime.sendMessage({
-					action: "parseResponse",
-					data: userData["data"],
-					login: userData["login"],
-					tab: sender.tab.id
-				});
-			}
-			else {
-				// cached data is invalid
-				getAllFriendScores2(function (data) {
-					console.log(data);
-					chrome.runtime.sendMessage({
-						action: "parseResponse",
-						data: data,
-						login: login,
-						tab: sender.tab.id
-					});
-				}, function (elapsed, total) {
-					// console.log('Progress: ' + elapsed + '/' + total);
-					chrome.runtime.sendMessage({
-						action: "parseProgress",
-						data: {
-							elapsed: elapsed,
-							total: total,
-						},
-					});
-				});
-			}
-		});
+		getFriendIds(5, function(profileUrls) {
+			console.log("[wlong] profileUrls: ", profileUrls);
+			getReligions(profileUrls, function(religionData) {
+				console.log("[wlong] religionData: ", religionData);
+			})
+		})
+		// getLoggedInAs(function(login) {
+		// 	if (!login) {
+		// 		// not logged in
+		// 		chrome.runtime.sendMessage({
+		// 			action: "parseResponse",
+		// 			data: [],
+		// 			login: null,
+		// 			tab: sender.tab.id
+		// 		});
+		// 	}
+		// 	else if (userData && userData["login"] && userData["time"] &&
+		// 			login == userData["login"] &&
+		// 			(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
+		// 		// cached data is valid
+		// 		// getAllFriendIds();
+		// 		chrome.runtime.sendMessage({
+		// 			action: "parseResponse",
+		// 			data: userData["data"],
+		// 			login: userData["login"],
+		// 			tab: sender.tab.id
+		// 		});
+		// 	}
+		// 	else {
+		// 		// cached data is invalid
+		// 		getAllFriendScores2(function (data) {
+		// 			console.log(data);
+		// 			chrome.runtime.sendMessage({
+		// 				action: "parseResponse",
+		// 				data: data,
+		// 				login: login,
+		// 				tab: sender.tab.id
+		// 			});
+		// 		}, function (elapsed, total) {
+		// 			// console.log('Progress: ' + elapsed + '/' + total);
+		// 			chrome.runtime.sendMessage({
+		// 				action: "parseProgress",
+		// 				data: {
+		// 					elapsed: elapsed,
+		// 					total: total,
+		// 				},
+		// 			});
+		// 		});
+		// 	}
+		// });
 	} else if (request.action == 'reset') {
 		timeoutHistory.forEach(function (timeout) {
 			clearTimeout(timeout)
