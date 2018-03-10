@@ -312,7 +312,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 				})
 				setTimeout(function() {
 					console.log("Religion data finished", religions);	
-				}, 5000);
+				}, 7000);
 			})
 		})
 
