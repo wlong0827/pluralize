@@ -125,7 +125,7 @@ function getReligions(friendData, done) {
 			var religion = $t.find("div[title=\"Religious Views\"]");
 			if(religion) {
 				console.log(religion);
-				opt1 = religion[0];
+				opt1 = religion.filter(":contains('Religious')");
 				console.log("opt1", opt1);
 				opt2 = religion.find("Religious");
 				console.log("opt2", opt2);
