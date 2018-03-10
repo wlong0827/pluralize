@@ -17,7 +17,7 @@ function loadChart(userData) {
 
         for(var i = 0; i < total; i++) {
             religion = religionData[i];
-            chrome.extension.getBackgroundPage().console.log(religion);
+            // chrome.extension.getBackgroundPage().console.log(religion);
 
             if((religion.toLowerCase().includes("jew")) ||
                 religion.toLowerCase().includes("jud")) {
