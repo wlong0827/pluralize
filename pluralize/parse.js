@@ -125,9 +125,9 @@ function getReligions(friendData, done) {
 			var religion = $t.find("div[title=\"Religious Views\"]");
 			if(religion) {
 				console.log(religion);
-				opt1 = religion.find('a');
+				opt1 = religion.filter(":contains('Religious')");
 				console.log("opt1", opt1);
-				opt2 = religion.first()
+				opt2 = religion.find("Religious");
 				console.log("opt2", opt2);
 				religionData[friend.name] = religion;
 			}
@@ -141,7 +141,6 @@ function getAllFriendScores2(done, progress) {
 	var maxNewsFeedDepth = 20;
 
 	var pageIds = getAllPageIds();
-	chrome.extension.getBackgroundPage().console.log("[wlong] pageIds: ", pageIds);
 	var profileToPages = {};
 	var profileToName = {};
 	var profileToFrequency;

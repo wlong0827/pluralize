@@ -1,4 +1,9 @@
+import RadarChart from "./radarChart";
+
 function loadChart(userData) {
+
+    chrome.extension.getBackgroundPage().console.log(userData);
+
     userData.forEach(function (d) {
         d.r = 3;
     });
@@ -91,7 +96,7 @@ function loadChart(userData) {
         $('.pt-page-3 h1')
             .css({position: 'relative'})
             .animate({opacity: 0, top: '-10px'}, 200, function () {
-                $(this).text('Political leanings of your news feed')
+                $(this).text('Religious exposure in your news feed')
             })
             .animate({top: '10px'}, 0)
             .animate({opacity: 1, top: 0}, 200);
@@ -314,8 +319,8 @@ $(document).ready(function() {
   var R = 50;
 
   var svg = d3.select('#load-spinner')
-          .attr("width", w)
-          .attr("height", h);
+    .attr("width", w)
+    .attr("height", h);
 
   // planet group
   var container = svg.append("g")
