@@ -1,8 +1,9 @@
-// import RadarChart from "./radarChart";
-
 function loadChart(userData) {
 
     chrome.extension.getBackgroundPage().console.log(userData);
+    chrome.storage.sync.get("value", function (obj) {
+        chrome.extension.getBackgroundPage().console.log("loadChart read", obj);
+    });
 
     userData.forEach(function (d) {
         d.r = 3;

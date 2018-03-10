@@ -114,10 +114,47 @@ function getFriendIds(maxDepth, done) {
 }
 
 function getReligions(friendData, done) {
-	var religionData = {};
+	var religionData = [];
+	console.log("There are " + friendData.length.toString() + " friends");
+	// andrew code
+	
+	// 	const promise = Promise.resolve(get(url)).then(function (text) {
+	// 	var $t = $(text);
+	// 	var religion = $t.find("div[title=\"Religious Views\"]");
+	// 	if(religion) {
+	// 		religion = religion.contents().filter(function() { 
+	// 			return !!$.trim( this.innerHTML || this.data ); 
+	// 		}).first().text().replace('Religious Views','');
+	// 		if(religion.length > 0) {
+	// 			religionData.push(religion);
+	// 		}
+	// 		console.log(religionData);
+	// 	}
+	// })
+
+
+	// return Promise.all(friendData.map(function(friend) {
+	// 	var url = 'https://mbasic.facebook.com' + friend.href.replace("?", "/about?");
+	// 	return Promise.resolve(get(url)).then(function (text) {
+	// 		var $t = $(text);
+	// 		var religion = $t.find("div[title=\"Religious Views\"]");
+	// 		if(religion) {
+	// 			religion = religion.contents().filter(function() { 
+	// 				return !!$.trim( this.innerHTML || this.data ); 
+	// 			}).first().text().replace('Religious Views','');
+	// 			if(religion.length > 0) {
+	// 				religionData.push(religion);
+	// 			}
+	// 			console.log(religionData);
+	// 		}
+	// 	})
+	// })).then(function(religionData) {
+	// 	console.log(religionData)
+	// 	console.log('done with promise.all')
+	// })
 
 	for(var i = 0; i < friendData.length; i++) {
-		friend = friendData[i];
+		var friend = friendData[i];
 		var url = 'https://mbasic.facebook.com' + friend.href.replace("?", "/about?");
 		get(url, function (text) {
 			var $t = $(text);
@@ -126,13 +163,20 @@ function getReligions(friendData, done) {
 				religion = religion.contents().filter(function() { 
 					return !!$.trim( this.innerHTML || this.data ); 
 				}).first().text().replace('Religious Views','');
-				console.log(religion)
-				religionData[friend.name] = religion;
+				if(religion.length > 0) {
+					religionData.push(religion);
+				}
+				console.log(religionData);
 			}
 		});
 	}
-	console.log("[wlong] religionData", religionData);
-	done(religionData);
+	setTimeout(function() {
+		console.log("timeout done", religionData);
+		chrome.storage.sync.set({"value": religionData}, function() {
+			console.log('Religion Data saved');
+		  });
+		done(religionData);
+	}, 6000);
 }
 
 function getAllFriendScores2(done, progress) {
@@ -173,8 +217,8 @@ function getAllFriendScores2(done, progress) {
 		if (numReturnsRemaining == 0) {
 			var results = Object.keys(profileToPages).map(function (profile) {
 				var scores = score(profileToPages[profile]);
-				var religion_scores = religionScore(profileToPages[profile])
-				console.log("[wlong] religion_scores: ", religion_scores)
+				// var religion_scores = religionScore(profileToPages[profile])
+				// console.log("[wlong] religion_scores: ", religion_scores)
 				return {
 					userId: profile,
 					name: profileToName[profile],
@@ -233,7 +277,45 @@ function getLoggedInAs(done) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "parse") {
 		var userData = request.cached;
-		var religions = {};
+		var religions = [];
+
+		getFriendIds(4, function(profileUrls) {
+			getReligions(profileUrls, function(religionData) {
+				religions = religionData;
+				religions.map(function(religion) {
+					if((religion.toLowerCase().includes("jew")) ||
+						religion.toLowerCase().includes("jud")) {
+						return "Jewish";
+					}
+					else if((religion.toLowerCase().includes("christ")) || 
+							(religion.toLowerCase().includes("jesus")) ||
+							(religion.toLowerCase().includes("catholic")) || 
+							religion.toLowerCase().includes("church")) {
+								return "Christian";
+							}
+					else if(religion.toLowerCase().includes("islam") ||
+							religion.toLowerCase().includes("muslim")) {
+								return "Muslim";
+							}
+					else if(religion.toLowerCase().includes("hindu")) {
+						return "Hindu";
+					}
+					else if(religion.toLowerCase().includes("bud")) {
+						return "Buddhism";
+					}
+					else if(religion.toLowerCase().includes("J")) {
+						return "Hindu";
+					}
+					else {
+						return "Other";
+					}
+				})
+				setTimeout(function() {
+					console.log("Religion data finished", religions);	
+				}, 5000);
+			})
+		})
+
 		getLoggedInAs(function(login) {
 			if (!login) {
 				// not logged in
@@ -257,12 +339,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 				});
 			}
 			else {
-				getFriendIds(5, function(profileUrls) {
-					console.log("[wlong] profileUrls: ", profileUrls);
-					getReligions(profileUrls, function(religionData) {
-						religions = religionData;
-					})
-				})
 				// cached data is invalid
 				getAllFriendScores2(function (data) {
 					console.log(data);
@@ -282,7 +358,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 						},
 					});
 				});
-				console.log("[wlong] religions: ", religions);
 			}
 		});
 	} else if (request.action == 'reset') {
