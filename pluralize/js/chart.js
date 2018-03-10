@@ -1,4 +1,4 @@
-import RadarChart from "./radarChart";
+// import RadarChart from "./radarChart";
 
 function loadChart(userData) {
 
