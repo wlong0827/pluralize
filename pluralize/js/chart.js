@@ -234,8 +234,17 @@ function loadChart(userData) {
             {axis:"Other",value:0.230},
     ];
 
-    var data = [formatted_data, world];
-    chrome.extension.getBackgroundPage().console.log("data", data);
+    var usa = [
+        {axis:"Christianity",value:0.69},
+            {axis:"Islam",value:0.021},
+            {axis:"Hinduism",value:0.014},
+            {axis:"Buddhism",value:0.008},
+            {axis:"Judaism",value:0.01},
+            {axis:"Other",value:0.24},
+    ]
+
+    var data = [formatted_data, world, usa];
+    // chrome.extension.getBackgroundPage().console.log("data", data);
 
     //If the supplied maxValue is smaller than the actual one, replace by the max in the data
 	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
