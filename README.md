@@ -1,6 +1,6 @@
 # Pluralize
 
-![Religious Leaning of Your Network](img/news_feed.png)
+![Religious Leaning of Your Network]
 
 Sapiens are creatures of habit. We consume content homogeneously, stuck in echo chambers with our views bouncing back into the very feeds we share into. Without direct encounters of faith-based conflict, it’s possible to lead a comfortable, pragmatic life and never consider inter-faith dialogue.
 
