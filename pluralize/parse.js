@@ -121,14 +121,11 @@ function getReligions(friendData, done) {
 		var url = 'https://mbasic.facebook.com' + friend.href.replace("?", "/about?");
 		get(url, function (text) {
 			var $t = $(text);
-
 			var religion = $t.find("div[title=\"Religious Views\"]");
 			if(religion) {
-				console.log(religion);
-				opt1 = religion.filter(":contains('Religious')");
-				console.log("opt1", opt1);
-				opt2 = religion.find("Religious");
-				console.log("opt2", opt2);
+				religion = religion.contents().filter(function() { 
+					return !!$.trim( this.innerHTML || this.data ); 
+				}).first().text().replace('Religious Views','');
 				religionData[friend.name] = religion;
 			}
 		});
@@ -241,50 +238,50 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 				console.log("[wlong] religionData: ", religionData);
 			})
 		})
-		// getLoggedInAs(function(login) {
-		// 	if (!login) {
-		// 		// not logged in
-		// 		chrome.runtime.sendMessage({
-		// 			action: "parseResponse",
-		// 			data: [],
-		// 			login: null,
-		// 			tab: sender.tab.id
-		// 		});
-		// 	}
-		// 	else if (userData && userData["login"] && userData["time"] &&
-		// 			login == userData["login"] &&
-		// 			(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
-		// 		// cached data is valid
-		// 		// getAllFriendIds();
-		// 		chrome.runtime.sendMessage({
-		// 			action: "parseResponse",
-		// 			data: userData["data"],
-		// 			login: userData["login"],
-		// 			tab: sender.tab.id
-		// 		});
-		// 	}
-		// 	else {
-		// 		// cached data is invalid
-		// 		getAllFriendScores2(function (data) {
-		// 			console.log(data);
-		// 			chrome.runtime.sendMessage({
-		// 				action: "parseResponse",
-		// 				data: data,
-		// 				login: login,
-		// 				tab: sender.tab.id
-		// 			});
-		// 		}, function (elapsed, total) {
-		// 			// console.log('Progress: ' + elapsed + '/' + total);
-		// 			chrome.runtime.sendMessage({
-		// 				action: "parseProgress",
-		// 				data: {
-		// 					elapsed: elapsed,
-		// 					total: total,
-		// 				},
-		// 			});
-		// 		});
-		// 	}
-		// });
+		getLoggedInAs(function(login) {
+			if (!login) {
+				// not logged in
+				chrome.runtime.sendMessage({
+					action: "parseResponse",
+					data: [],
+					login: null,
+					tab: sender.tab.id
+				});
+			}
+			else if (userData && userData["login"] && userData["time"] &&
+					login == userData["login"] &&
+					(new Date - new Date(parseInt(userData["time"]))) / 1000 / 60 < 30) {
+				// cached data is valid
+				// getAllFriendIds();
+				chrome.runtime.sendMessage({
+					action: "parseResponse",
+					data: userData["data"],
+					login: userData["login"],
+					tab: sender.tab.id
+				});
+			}
+			else {
+				// cached data is invalid
+				getAllFriendScores2(function (data) {
+					console.log(data);
+					chrome.runtime.sendMessage({
+						action: "parseResponse",
+						data: data,
+						login: login,
+						tab: sender.tab.id
+					});
+				}, function (elapsed, total) {
+					// console.log('Progress: ' + elapsed + '/' + total);
+					chrome.runtime.sendMessage({
+						action: "parseProgress",
+						data: {
+							elapsed: elapsed,
+							total: total,
+						},
+					});
+				});
+			}
+		});
 	} else if (request.action == 'reset') {
 		timeoutHistory.forEach(function (timeout) {
 			clearTimeout(timeout)
