@@ -114,7 +114,7 @@ function getFriendIds(maxDepth, done) {
 }
 
 function getReligions(friendData, done) {
-	var religionData = [];
+	var religionData = {};
 
 	for(var i = 0; i < friendData.length; i++) {
 		friend = friendData[i];
@@ -126,11 +126,12 @@ function getReligions(friendData, done) {
 				religion = religion.contents().filter(function() { 
 					return !!$.trim( this.innerHTML || this.data ); 
 				}).first().text().replace('Religious Views','');
+				console.log(religion)
 				religionData[friend.name] = religion;
 			}
 		});
 	}
-	console.log(religionData);
+	console.log("[wlong] religionData", religionData);
 	done(religionData);
 }
 
@@ -232,12 +233,7 @@ function getLoggedInAs(done) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.action == "parse") {
 		var userData = request.cached;
-		getFriendIds(5, function(profileUrls) {
-			console.log("[wlong] profileUrls: ", profileUrls);
-			getReligions(profileUrls, function(religionData) {
-				console.log("[wlong] religionData: ", religionData);
-			})
-		})
+		var religions = {};
 		getLoggedInAs(function(login) {
 			if (!login) {
 				// not logged in
@@ -261,6 +257,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 				});
 			}
 			else {
+				getFriendIds(5, function(profileUrls) {
+					console.log("[wlong] profileUrls: ", profileUrls);
+					getReligions(profileUrls, function(religionData) {
+						religions = religionData;
+					})
+				})
 				// cached data is invalid
 				getAllFriendScores2(function (data) {
 					console.log(data);
@@ -280,6 +282,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 						},
 					});
 				});
+				console.log("[wlong] religions: ", religions);
 			}
 		});
 	} else if (request.action == 'reset') {
