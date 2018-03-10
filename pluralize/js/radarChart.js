@@ -5,7 +5,7 @@
 /////////// Inspired by the code of alangrafu ///////////
 /////////////////////////////////////////////////////////
 	
-function RadarChart(id, data, options) {
+export function RadarChart(id, data, options) {
 	var cfg = {
 	 w: 600,				//Width of the circle
 	 h: 600,				//Height of the circle

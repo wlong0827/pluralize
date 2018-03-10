@@ -42,83 +42,84 @@ function loadChart(userData) {
         });
 
     $('.pt-page-3 .button.next').click(function () {
-        userData.forEach(function (d) {
-            d.r = Math.sqrt(d.frequency) * 3 + 2;
-        });
 
-        nodes
-            .transition()
-            .ease(d3.easeCubicOut)
-            .duration(500)
-            .attr('r', function (d) {
-                return d.r;
-            });
+        // userData.forEach(function (d) {
+        //     d.r = Math.sqrt(d.frequency) * 3 + 2;
+        // });
 
-        lines
-            .transition()
-            .ease(d3.easeCubicOut)
-            .duration(500)
-            .attr('opacity', function (d) {
-                return d.frequency > 0 ? d.confidence : 0;
-            });
+        // nodes
+        //     .transition()
+        //     .ease(d3.easeCubicOut)
+        //     .duration(500)
+        //     .attr('r', function (d) {
+        //         return d.r;
+        //     });
 
-        var simulation = d3.forceSimulation(userData)
-            .alphaDecay(0.08)
-            .force("x", d3.forceX().x(function (d) {
-                return x(d.score);
-            }).strength(1))
-            .force("y", d3.forceY().y(function (d) {
-                return y(d.frequency > 0 ? d.frequency + 1 : 0);
-            }))
-            .force("collide", d3.forceCollide(function (d) {
-                return d.r + 1;
-            }).iterations(10))
-            .on('tick', ticked);
+        // lines
+        //     .transition()
+        //     .ease(d3.easeCubicOut)
+        //     .duration(500)
+        //     .attr('opacity', function (d) {
+        //         return d.frequency > 0 ? d.confidence : 0;
+        //     });
 
-        var newsFeedItems = [];
-        userData.forEach(function (e) {
-            for (var i = 0; i < e.frequency; i++) {
-                newsFeedItems.push(e);
-            }
-        });
-        main.insert("path", ':first-child')
-            .datum(x.ticks(100).map(function (x) { return [x, 0]; }))
-            .attr("class", "area2")
-            .attr("d", area)
-            .attr('opacity', 0)
-            .datum(kde(newsFeedItems))
-            .transition()
-            .ease(d3.easeCubicOut)
-            .duration(1000)
-            .attr('opacity', 1)
-            .attr("d", area);
+        // var simulation = d3.forceSimulation(userData)
+        //     .alphaDecay(0.08)
+        //     .force("x", d3.forceX().x(function (d) {
+        //         return x(d.score);
+        //     }).strength(1))
+        //     .force("y", d3.forceY().y(function (d) {
+        //         return y(d.frequency > 0 ? d.frequency + 1 : 0);
+        //     }))
+        //     .force("collide", d3.forceCollide(function (d) {
+        //         return d.r + 1;
+        //     }).iterations(10))
+        //     .on('tick', ticked);
 
-        $(this).off('click');
-        $('.pt-page-3 h1')
-            .css({position: 'relative'})
-            .animate({opacity: 0, top: '-10px'}, 200, function () {
-                $(this).text('Religious exposure in your news feed')
-            })
-            .animate({top: '10px'}, 0)
-            .animate({opacity: 1, top: 0}, 200);
-        $('.pt-page-3 p').first()
-            .delay(50)
-            .css({position: 'relative'})
-            .animate({opacity: 0, top: '-10px'}, 200, function () {
-                $(this).text("The larger bubbles are highlighted here to represent the people who show up most often in your news feed.")
-            })
-            .animate({top: '10px'}, 0)
-            .animate({opacity: 1, top: 0}, 200);
-        $(this).click(function() {
-            pies(userData);
-            $(this).off('click');
-            $(this).hide();
-            $("p.hifrom")
-                .css({position: 'relative', top: '10px', opacity: 0, display: 'block'})
-                .animate({opacity: 1, top: 0}, 400);
-        });
-        $('.pt-page-3 .button.back').show();
-        return false;
+        // var newsFeedItems = [];
+        // userData.forEach(function (e) {
+        //     for (var i = 0; i < e.frequency; i++) {
+        //         newsFeedItems.push(e);
+        //     }
+        // });
+        // main.insert("path", ':first-child')
+        //     .datum(x.ticks(100).map(function (x) { return [x, 0]; }))
+        //     .attr("class", "area2")
+        //     .attr("d", area)
+        //     .attr('opacity', 0)
+        //     .datum(kde(newsFeedItems))
+        //     .transition()
+        //     .ease(d3.easeCubicOut)
+        //     .duration(1000)
+        //     .attr('opacity', 1)
+        //     .attr("d", area);
+
+        // $(this).off('click');
+        // $('.pt-page-3 h1')
+        //     .css({position: 'relative'})
+        //     .animate({opacity: 0, top: '-10px'}, 200, function () {
+        //         $(this).text('Religious exposure in your news feed')
+        //     })
+        //     .animate({top: '10px'}, 0)
+        //     .animate({opacity: 1, top: 0}, 200);
+        // $('.pt-page-3 p').first()
+        //     .delay(50)
+        //     .css({position: 'relative'})
+        //     .animate({opacity: 0, top: '-10px'}, 200, function () {
+        //         $(this).text("The larger bubbles are highlighted here to represent the people who show up most often in your news feed.")
+        //     })
+        //     .animate({top: '10px'}, 0)
+        //     .animate({opacity: 1, top: 0}, 200);
+        // $(this).click(function() {
+        //     pies(userData);
+        //     $(this).off('click');
+        //     $(this).hide();
+        //     $("p.hifrom")
+        //         .css({position: 'relative', top: '10px', opacity: 0, display: 'block'})
+        //         .animate({opacity: 1, top: 0}, 400);
+        // });
+        // $('.pt-page-3 .button.back').show();
+        // return false;
     });
     $('.pt-page-3 .button.back').hide();
     $('.pt-page-3 .button.back').click(function() {
