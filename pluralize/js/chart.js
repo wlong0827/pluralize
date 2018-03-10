@@ -59,7 +59,7 @@ function loadChart(userData) {
     });
 
     var margin = {
-            top: 20,
+            top: 60,
             right: 15,
             bottom: 60,
             left: 60
@@ -175,18 +175,11 @@ function loadChart(userData) {
         console.log("bruh")
     });
 
-    // var chart = d3.select('.pt-page-3 .col-xs-8')
-    //     .append('svg:svg')
-    //     .attr('id', 'pluralize')
-    //     .attr('class', 'radarChart')
-    //     .attr('viewBox', margin.left +' '+margin.bottom+' '+(width - margin.right) + ' ' + (height - margin.top))
-    //     .attr('preserveAspectRatio', 'xMinYMid meet')
-
     var cfg = {
         w: width,				//Width of the circle
         h: height,				//Height of the circle
-        margin: {top: 100, right: 100, bottom: 100, left: 100}, //The margins of the SVG
-        levels: 2,				//How many levels or inner circles should there be drawn
+        margin: {top: 150, right: 100, bottom: 10, left: 100}, //The margins of the SVG
+        levels: 5,				//How many levels or inner circles should there be drawn
         maxValue: 0, 			//What is the value that the biggest circle will represent
         labelFactor: 1.25, 	//How much farther than the radius of the outer circle should the labels be placed
         wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
@@ -204,16 +197,6 @@ function loadChart(userData) {
           if('undefined' !== typeof options[i]){ cfg[i] = options[i]; }
         }//for i
       }//if
-    
-    // var cache = {
-    //     "Christianity": 0.20, //extract
-    //     "Islam":0.28,
-    //     "Hinduism":0.17,
-    //     "Buddhism":0.22,
-    //     "Judaism": 0.50,
-    //     "Folk":0.02,
-    //     "Irreligion":0.5,
-    // };		
 
     setTimeout(function() {
     var formatted_data = [
@@ -464,67 +447,7 @@ var tooltip = g.append("text")
     .style("opacity", 0);
 }, 1000);
 
-    // var chart = d3.select('.pt-page-3 .col-xs-8')
-    //     .append('svg:svg')
-    //     .attr('id', 'politecho')
-    //     .attr('class', 'chart')
-    //     .attr('viewBox', margin.left +' '+margin.bottom+' '+(width - margin.right) + ' ' + (height - margin.top))
-    //     .attr('preserveAspectRatio', 'xMinYMid meet')
-
-    // var main = chart.append('g')
-    //     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-    //     .attr('width', width)
-    //     .attr('height', height)
-    //     .attr('class', 'main')
-
-    // var g = main.append("svg:g");
-
     var colorRamp = d3.scaleLinear().domain([-1, 1]).range(["blue", "red"]);
-
-    // var lines = g.selectAll('line')
-    //     .data(userData)
-    //     .enter().append('line')
-    //     .attr('class', 'node-line')
-    //     .attr('opacity', 0);
-
-    // var nodes = g.selectAll("scatter-dots")
-    //     .data(userData)
-    //     .enter().append("svg:circle")
-    //     .attr("r", function (d) {
-    //         return d.r;
-    //     })
-    //     .attr("fill", function (d, i) {
-    //         return colorRamp(d.score);
-    //     })
-    //     .attr('opacity', function (d) {
-    //         return d.confidence;
-    //     })
-    //     .on("click", function(d) {
-    //         chrome.tabs.create({url: "https://www.facebook.com" + d.userId});
-    //         return false;
-    //     })
-    //     .on("mouseover", function(d) {
-    //         $tooltip.html($("<p>").html(d.name + " likes:"));
-    //         var $p = $("<p>");
-    //         d.pages.forEach(function(p) {
-    //             $p.append($("<div>").css("color", tooltipColorRamp(p.score)).text(p.name));
-    //         });
-    //         $tooltip.append($p);
-    //         var confidence = d.confidence > 0.8 ? "High" : d.confidence < 0.3 ? "Low" : "Medium";
-    //         $tooltip.append($("<p>").text("Confidence: "+confidence));
-    //         return tooltip.style("visibility", "visible");
-    //     })
-    //     .on("mousemove", function(){return tooltip.style("top", Math.min(event.pageY-10, $(window).height() - $tooltip.height())+"px").style("left",(event.pageX+10)+"px");})
-    //     .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
-
-    // var tooltip = d3.select("body")
-    //     .append("div")
-    //     .attr("class", "chart-tooltip")
-    //     .style("position", "absolute")
-    //     .style("z-index", "999")
-    //     .style("visibility", "hidden");
-    // var $tooltip = $(tooltip.node());
-    // var tooltipColorRamp = d3.scaleLinear().domain([-1, 1]).range(["blue", "red"]);
 
     function updateBounds() {
         userData.forEach(function (d) {
@@ -535,56 +458,13 @@ var tooltip = g.append("text")
 
     function tickedOffset() {
         updateBounds();
-
-        // nodes
-        //     .attr("cx", function (d) {
-        //         return d.x;
-        //     })
-        //     .attr("cy", function (d) {
-        //         return d.y - 50;
-        //     });
     }
 
     function tickedTransitionReset() {
-        // nodes
-        //     .transition()
-        //     .duration(600)
-        //     .ease(d3.easeCubicInOut)
-        //     .delay(function (d) {
-        //         return Math.random() * 300;
-        //     })
-        //     .attr("cx", function (d) {
-        //         return d.x;
-        //     })
-        //     .attr("cy", function (d) {
-        //         return d.y;
-        //     });
     }
 
     function ticked() {
         updateBounds();
-
-        // nodes
-        //     .attr("cx", function (d) {
-        //         return d.x;
-        //     })
-        //     .attr("cy", function (d) {
-        //         return d.y;
-        //     });
-
-        // lines
-        //     .attr('x1', function (d) {
-        //         return d.x;
-        //     })
-        //     .attr('y1', function (d) {
-        //         return y(0);
-        //     })
-        //     .attr('x2', function (d) {
-        //         return d.x;
-        //     })
-        //     .attr('y2', function (d) {
-        //         return d.y;
-        //     });
     }
 
     var numHistBins = Math.ceil(Math.sqrt(userData.length));
