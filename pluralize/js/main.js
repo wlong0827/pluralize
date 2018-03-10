@@ -3,7 +3,9 @@ chrome.tabs.getCurrent(function (tab) {
     if (request.action == "parseResponse" && request.tab == tab.id) {
       console.log(request.data);
       storeResponse(request.data, request.login);
-      loadChart(request.data, request.login);
+      setTimeout(function() {
+        loadChart(request.data, request.login);
+      }, 2000);
     } else if (request.action == "parseProgress") {
       $('.js-progress-text').text('Progress: ' + Math.floor(request.data.elapsed / request.data.total * 100) + '%');
       $('.js-progress-bar').width(request.data.elapsed / request.data.total * 100 + '%');
@@ -120,7 +122,7 @@ $(document).ready(function() {
       
       setTimeout(function () {
         loadChart(userData);
-      }, 700);
+      }, 2000);
     } else {
       // chrome.storage.local.clear();
       getStoredResponse(function(userData) {

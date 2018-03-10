@@ -1,47 +1,59 @@
 function loadChart(userData) {
-    religionData = []
-    chrome.extension.getBackgroundPage().console.log(userData);
-    chrome.storage.sync.get("value", function (obj) {
-        chrome.extension.getBackgroundPage().console.log("loadChart read", obj);
+    var religionData = [];
+    var religionStats = {
+        "Judaism":0,
+        "Christianity":0,
+        "Islam":0,
+        "Hinduism":0,
+        "Buddhism":0,
+        "Other":0,
+    };
+    var total = 1;
 
-        religionData = obj;
-        religionData.map(function(religion) {
+    chrome.storage.sync.get("value", function (obj) {
+        religionData = obj["value"];
+
+        total = religionData.length < 1 ? 1 : religionData.length;
+
+        for(var i = 0; i < total; i++) {
+            religion = religionData[i];
+            chrome.extension.getBackgroundPage().console.log(religion);
+
             if((religion.toLowerCase().includes("jew")) ||
                 religion.toLowerCase().includes("jud")) {
-                return "Judaism";
+                religionStats["Judaism"] += 1
             }
             else if((religion.toLowerCase().includes("christ")) || 
                     (religion.toLowerCase().includes("jesus")) ||
                     (religion.toLowerCase().includes("catholic")) || 
                     religion.toLowerCase().includes("church")) {
-                        return "Christianity";
+                        religionStats["Christianity"] += 1
                     }
             else if(religion.toLowerCase().includes("islam") ||
                     religion.toLowerCase().includes("muslim")) {
-                        return "Islam";
+                        religionStats["Islam"] += 1
                     }
             else if(religion.toLowerCase().includes("hindu")) {
-                return "Hinduism";
+                religionStats["Hinduism"] += 1
             }
             else if(religion.toLowerCase().includes("bud")) {
-                return "Buddhism";
+                religionStats["Buddhism"] += 1
             }
             else {
-                return "Other";
+                religionStats["Other"] += 1
             }
-        })
+        }
+
+        religionStats["Judaism"] /= total;
+        religionStats["Christianity"] /= total;
+        religionStats["Buddhism"] /= total;
+        religionStats["Hinduism"] /= total;
+        religionStats["Other"] /= total;
+        religionStats["Islam"] /= total;
+
+        chrome.extension.getBackgroundPage().console.log("religionStats", religionStats);
     });
 
-    religionStats = {
-        "Judaism": religionData.filter(function(x){ return x === "Judaism"; }).length,
-        "Christianity": religionData.filter(function(x){ return x === "Christianity"; }).length,
-        "Islam": religionData.filter(function(x){ return x === "Islam"; }).length,
-        "Hinduism": religionData.filter(function(x){ return x === "Hinduism"; }).length,
-        "Buddhism": religionData.filter(function(x){ return x === "Buddhism"; }).length,
-        "Other": religionData.filter(function(x){ return x === "Other"; }).length,
-    }
-
-    console.log("religionStats", religionStats);
     userData.forEach(function (d) {
         d.r = 3;
     });
@@ -174,8 +186,8 @@ function loadChart(userData) {
         w: width,				//Width of the circle
         h: height,				//Height of the circle
         margin: {top: 100, right: 100, bottom: 100, left: 100}, //The margins of the SVG
-        levels: 5,				//How many levels or inner circles should there be drawn
-        maxValue: 0.6, 			//What is the value that the biggest circle will represent
+        levels: 2,				//How many levels or inner circles should there be drawn
+        maxValue: 0, 			//What is the value that the biggest circle will represent
         labelFactor: 1.25, 	//How much farther than the radius of the outer circle should the labels be placed
         wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
         opacityArea: 0.35, 	//The opacity of the area of the blob
@@ -183,8 +195,7 @@ function loadChart(userData) {
         opacityCircles: 0.1, 	//The opacity of the circles of each blob
         strokeWidth: 2, 		//The width of the stroke around each blob
         roundStrokes: true,	//If true the area and stroke will follow a round path (cardinal-closed)
-        color: d3.scaleOrdinal() // individual, world
-        .range(["#EDC951","#CC333F","#00A0B0"]),	//Color function
+        color: d3.scaleOrdinal().range(["#EDC951","#CC333F","#00A0B0"]),	//Color function
     };
 
     //Put all of the options into a variable called cfg
@@ -194,24 +205,24 @@ function loadChart(userData) {
         }//for i
       }//if
     
-    var cache = {
-        "Christianity": 0.20, //extract
-        "Islam":0.28,
-        "Hinduism":0.17,
-        "Buddhism":0.22,
-        "Judaism": 0.50,
-        "Folk":0.02,
-        "Irreligion":0.5,
-    };		
+    // var cache = {
+    //     "Christianity": 0.20, //extract
+    //     "Islam":0.28,
+    //     "Hinduism":0.17,
+    //     "Buddhism":0.22,
+    //     "Judaism": 0.50,
+    //     "Folk":0.02,
+    //     "Irreligion":0.5,
+    // };		
 
+    setTimeout(function() {
     var formatted_data = [
-    {axis: "Christianity", value: cache["Christianity"]},
-    {axis: "Islam", value: cache["Islam"]},
-    {axis: "Hinduism", value: cache["Hinduism"]},
-    {axis: "Buddhism", value: cache["Buddhism"]},
-    {axis: "Judaism", value: cache["Judaism"]},
-    {axis: "Folk", value: cache["Folk"]},
-    {axis: "Irreligion", value: cache["Irreligion"]}
+        {axis: "Christianity", value: religionStats["Christianity"]},
+        {axis: "Islam", value: religionStats["Islam"]},
+        {axis: "Hinduism", value: religionStats["Hinduism"]},
+        {axis: "Buddhism", value: religionStats["Buddhism"]},
+        {axis: "Judaism", value: religionStats["Judaism"]},
+        {axis: "Other", value: religionStats["Other"]},
     ]
     //world data
     var world = [
@@ -220,11 +231,11 @@ function loadChart(userData) {
             {axis:"Hinduism",value:0.151},
             {axis:"Buddhism",value:0.069},
             {axis:"Judaism",value:0.002},
-            {axis:"Folk",value:0.057},
-            {axis:"Irreligion",value:0.173}
+            {axis:"Other",value:0.230},
     ];
 
     var data = [formatted_data, world];
+    chrome.extension.getBackgroundPage().console.log("data", data);
 
     //If the supplied maxValue is smaller than the actual one, replace by the max in the data
 	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
@@ -442,6 +453,7 @@ blobCircleWrapper.selectAll(".radarInvisibleCircle")
 var tooltip = g.append("text")
     .attr("class", "tooltip")
     .style("opacity", 0);
+}, 1000);
 
     // var chart = d3.select('.pt-page-3 .col-xs-8')
     //     .append('svg:svg')
