@@ -1,0 +1,21 @@
+{
+  "name": "Pluralize",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "Visualize the religious exposure in your social network",
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "icons":{
+  	  "128":"pluralize.png"
+  },
+  "background": {
+    "scripts": [
+      "scoring.js",
+      "jquery-3.1.1.min.js",
+      "parse.js"
+    ],
+    "persistent": true
+  },
+  "permissions": ["tabs", "https://*.facebook.com/*", "storage"]
+}

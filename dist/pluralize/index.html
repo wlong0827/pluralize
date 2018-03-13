@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Pluralize</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/default.css" />
+		<link rel="stylesheet" type="text/css" href="css/multilevelmenu.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<link rel="stylesheet" type="text/css" href="css/animations.css" />
+
+		<link href="https://fonts.googleapis.com/css?family=Karla|Playfair+Display" rel="stylesheet">
+
+		<script src="js/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<!-- <script>
+			window.fbAsyncInit = function() {
+				FB.init({
+				appId            : '1929287547104806',
+				autoLogAppEvents : true,
+				xfbml            : true,
+				version          : 'v2.12'
+				});
+			};
+
+			(function(d, s, id){
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {return;}
+				js = d.createElement(s); js.id = id;
+				js.src = "https://connect.facebook.net/en_US/sdk.js";
+				fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+		</script> -->
+
+		<div id="pt-main" class="pt-perspective container-fluid">
+			<div class="pt-page pt-page-1 gradient">
+				<div class="row">
+					<!--- <h5 class = "vhacks">Pluralize</h5> -->
+					<img class = "pluralLogo" src = "logoPluralize.png"  alt =""/>
+					<h1>How exposed are you to the world's faiths?</h1>
+					<h5>Find out how your daily experience compares to the rest of the world.</h5>
+					<br/>
+					<div class="button">
+					Get started
+					</div>
+				</div>
+					<svg id="home-animation" width="1200" height="200"
+  viewBox="200 0 1200 200" style="width: 100%; height: 200px"
+  preserveAspectRatio="xMidYMid meet"></svg>
+			</div>
+			<div class="pt-page pt-page-2">
+				<div class="row">
+					<img class = "pluralLogo" src = "logoPluralize.png"  alt =""/>
+					<div class="gradient"></div>
+					<div class="col-sm-6">
+
+						<svg id="load-spinner" width="200" height="200"
+  viewBox="0 0 200 200" style="width: 50%; height: 200px"
+  preserveAspectRatio="xMidYMid meet"></svg>
+					</div>
+					<div class="col-sm-6">
+						<h1>Analyzing your Facebook data</h1>
+						<p>In the meantime, read about the value of <a target="_blank" href="http://religion.blogs.cnn.com/category/interfaith-issues/"> Interfaith Dialogue</a> and why it matters to you.</p>
+						<p class="js-progress-text"></p>
+						<p class="js-progress-bar progress-bar"></p>
+						<p class="js-render-text"></p>
+						<p class="js-render-bar progress-bar"></p>
+
+					</div>
+				</div>
+			</div>
+			<div class="pt-page pt-page-3">
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="border-wrap gradient">
+						</div>
+							<h5 class = "vhacks">Pluralize</h5>
+							<h1>Religious leanings of all your friends</h1>
+							<p>
+								Here's the religious sentiment of your entire friends list. Each dot represents a person you are friends with. Hover over a dot for more info.
+								
+							</p>
+							<p>
+								<!-- <div class="button back">
+									Back
+								</div> -->
+								<!-- <div class="button next">
+									Next
+								</div> -->
+							</p>
+							<!-- <p class="hifrom" style="display: none"> -->
+                            <p class="hifrom">
+								<a href="#" class="js-share-fb button">Share Results on Facebook</a> <span class="js-share-fb-progress"></span>
+							</p>
+					</div>
+					<div class="col-xs-4">
+						<!-- -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="pt-message">
+			<p>Your browser does not support CSS animations.</p>
+		</div>
+
+		<script src="js/jquery-3.1.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/d3.min.js"></script>
+		<script src="js/pagetransitions.js"></script>
+		<script src="js/vendor/rgbcolor.js"></script>
+		<script src="js/vendor/StackBlur.js"></script>
+		<script src="js/vendor/canvg.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/chart.js"></script>
+		<script src="js/pie.js"></script>
+		<script src="js/home.js"></script>
+	</body>
+</html>
