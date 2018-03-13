@@ -1,12 +1,10 @@
 # Pluralize
 
-![Religious Leaning of Your Network]
+Humans are creatures of habit. We consume terabytes of content, but often are stuck in echo chambers with our views bouncing back into the very feeds we share into. Without direct encounters of faith-based conflict, it’s possible to lead a comfortable, pragmatic life without ever thinking about the tensions and conflicts that surround us. Pluralize recognizes that we can’t enable people to have these conversations if we don't first inspire and motivate them. By revealing our tendency to associate disproportionately with people that believe what we believe, Pluralize can produce the mindset necessary for people to be engaged with Interfaith Dialogue.
 
-Sapiens are creatures of habit. We consume content homogeneously, stuck in echo chambers with our views bouncing back into the very feeds we share into. Without direct encounters of faith-based conflict, it’s possible to lead a comfortable, pragmatic life and never consider inter-faith dialogue.
-
+Pluralize helps people become aware of religions in their social vicinity and suggest ways to help them learn about faith.
 
 ## What is Pluralize? 
-
 
 Pluralize (plural + eyes) recognizes that we can’t force people to have these conversations. They need to be self-motivated, driven by an understanding of the importance of inter-faith cooperation combined with recognition of our individual shortcomings.
 
