@@ -217,16 +217,16 @@ function loadChart(userData) {
             {axis:"Other",value:0.230},
     ];
 
-    var china = [
-        {axis:"Christianity",value:0.051},
-            {axis:"Islam",value:0.041},
-            {axis:"Hinduism",value:0.014},
-            {axis:"Buddhism",value:0.222},
-            {axis:"Judaism",value:0.01},
-            {axis:"Other",value:0.65},
-    ]
+//     var china = [
+//         {axis:"Christianity",value:0.051},
+//             {axis:"Islam",value:0.041},
+//             {axis:"Hinduism",value:0.014},
+//             {axis:"Buddhism",value:0.222},
+//             {axis:"Judaism",value:0.01},
+//             {axis:"Other",value:0.65},
+//     ]
 
-    var data = [formatted_data, world, china];
+    var data = [formatted_data, world];
     // chrome.extension.getBackgroundPage().console.log("data", data);
 
     //If the supplied maxValue is smaller than the actual one, replace by the max in the data
