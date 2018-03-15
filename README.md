@@ -15,6 +15,16 @@ Pluralize helps people become aware of religions in their social vicinity and su
 ## How it works
 Pluralize is a Chrome extension which uses the existing user’s Facebook login and the Graph API to pull religion data from every friend. D3 is used to present data in a radial graph on our front end of the extension and show the reader their friends’ religious demographics vs their country and the world.
 
+## Installation Instructions
+Since Pluralize is still undergoing review by the Chrome webstore, you'll need to download our code locally to use it for now. Prerequisites: must have the Chrome web browser installed. To do that, follow these simple instructions:
+
+1. Download the Zip file to your computer (should be named something like wlong0827-pluralize-ad1b17f.zip) and unzip it.
+2. Open your Chrome browser and access the Extensions page (you can navigate it by going to the url chrome://extensions/)
+3. You should see a checkbox called "Developer Mode". Select this option. It should give you now show you additional option buttons.
+4. Click on "Load unpacked Extension" and select the folder named "pluralize" inside of your unzipped downloaded folder. IMPORTANT: do not upload the entire unzipped folder; only the interior folder named "pluralize".
+![alt text](https://raw.githubusercontent.com/wlong0827/pluralize/master/img/install.png)
+5. You should now see in the top right hand corner of your browser the Pluralize chrome extension. Click on it to get started!
+
 ## Technical Description
 ### Data Collection
 The primary data used by the app was page likes on Facebook. We developed methods of figuring out what pages a specific Facebook user has liked through careful analysis of the web page's source. Pages and users were tracked by their Graph ID. 
@@ -30,6 +40,8 @@ The primary language used for the front-end was Javascript. The entire applicati
 
 In a standard use case, a user who has logged into their Facebook account simply clicks on the Pularlize chrome extension icon in their browser. This opens a separate page where the app fetches the required data from Facebook and displays the visualization.
 
+## Feedback
+We'd love to hear your thoughts on our project as well as any bugs that you may have run across. Feel free to open an issue in Github for technical problems or email me at wlong0827@gmail.com with general feedback.
 
 
 
