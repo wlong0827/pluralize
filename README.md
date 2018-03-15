@@ -21,6 +21,9 @@ The primary data used by the app was page likes on Facebook. We developed method
 
 In a similar fashion, we recovered information on the sources of posts on the user's personal news feed. This information was then used to examine the relative religious leanings of friends.
 
+### What does Pluralize do with my Facebook data?
+Pluralize never sends your personal information to any external services, and your results stay private unless you choose to share them publicly. Pluralize will need to look up some basic information from your news feed and friends list. In particular, it will examine what your friends have publicly identified their religious affiliation as. All processing is done client-side, so data never leaves your computer.
+
 
 ### Front-end
 The primary language used for the front-end was Javascript. The entire application was put together within the Google Chrome Extension system to take advantage of its cross-site request capability. JQuery was used for most of the processing work and d3.js was used to help construct the visualization.
