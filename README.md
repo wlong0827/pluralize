@@ -22,7 +22,9 @@ Since Pluralize is still undergoing review by the Chrome webstore, you'll need t
 2. Open your Chrome browser and access the Extensions page (you can navigate it by going to the url chrome://extensions/)
 3. You should see a checkbox called "Developer Mode". Select this option. It should give you now show you additional option buttons.
 4. Click on "Load unpacked Extension" and select the folder named "pluralize" inside of your unzipped downloaded folder. IMPORTANT: do not upload the entire unzipped folder; only the interior folder named "pluralize".
+
 ![alt text](https://raw.githubusercontent.com/wlong0827/pluralize/master/img/install.png)
+
 5. You should now see in the top right hand corner of your browser the Pluralize chrome extension. Click on it to get started!
 
 ## Technical Description
