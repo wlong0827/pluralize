@@ -24,6 +24,9 @@ Since Pluralize is still undergoing review by the Chrome webstore, you'll need t
 4. Click on "Load unpacked Extension" and select the folder named "pluralize" inside of your unzipped downloaded folder. IMPORTANT: do not upload the entire unzipped folder; only the interior folder named "pluralize".
 5. You should now see in the top right hand corner of your browser the Pluralize chrome extension. Click on it to get started!
 
+### Known Issues
+The asychronous loading is known to have some timing issues communicating with the Facebook server. As a result, sometimes the data is not ready to display by the time the graphics are rendered. To fix this, simply click on the Chrome extension again in a new tab. This second time should allow a much faster load time since results are cached in the browser. In rare cases, it may require 3-4 tries before the yellow curve (representing personal statistics) shows alongside the red curve (the world's religious demographics)
+
 ## Technical Description
 ### Data Collection
 The primary data used by the app was page likes on Facebook. We developed methods of figuring out what pages a specific Facebook user has liked through careful analysis of the web page's source. Pages and users were tracked by their Graph ID. 
