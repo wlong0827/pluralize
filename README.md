@@ -1,3 +1,5 @@
+![alt text](https://github.com/wlong0827/pluralize/blob/master/pluralize/logoPluralize.png)
+
 # Pluralize
 
 Humans are creatures of habit. We consume terabytes of content, but often are stuck in echo chambers with our views bouncing back into the very feeds we share into. Without direct encounters of faith-based conflict, it’s possible to lead a comfortable, pragmatic life without ever thinking about the tensions and conflicts that surround us. Pluralize recognizes that we can’t enable people to have these conversations if we don't first inspire and motivate them. By revealing our tendency to associate disproportionately with people that believe what we believe, Pluralize can produce the mindset necessary for people to be engaged with Interfaith Dialogue.
