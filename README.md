@@ -1,4 +1,4 @@
-![alt text](https://github.com/wlong0827/pluralize/blob/master/pluralize/logoPluralize.png)
+![alt text](https://raw.githubusercontent.com/wlong0827/pluralize/master/pluralize/logoPluralize.png)
 
 # Pluralize
 
